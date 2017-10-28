@@ -735,6 +735,37 @@ module.exports = ExecutionEnvironment;
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(38);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(18)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js?modules!./puzzle.css", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js?modules!./puzzle.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
@@ -813,7 +844,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -884,7 +915,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -927,7 +958,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -957,7 +988,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -997,37 +1028,6 @@ function getActiveElement(doc) /*?DOMElement*/{
 }
 
 module.exports = getActiveElement;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(38);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {"hmr":true}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(18)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js?modules!./puzzle.css", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js?modules!./puzzle.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
 
 /***/ }),
 /* 17 */
@@ -3261,7 +3261,7 @@ module.exports = ReactEntry;
  LICENSE file in the root directory of this source tree.
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(3);__webpack_require__(2);var l=__webpack_require__(10),n=__webpack_require__(4),ba=__webpack_require__(11),ca=__webpack_require__(1),da=__webpack_require__(5),ea=__webpack_require__(12),fa=__webpack_require__(13),ha=__webpack_require__(14),ia=__webpack_require__(15);
+var aa=__webpack_require__(3);__webpack_require__(2);var l=__webpack_require__(10),n=__webpack_require__(4),ba=__webpack_require__(12),ca=__webpack_require__(1),da=__webpack_require__(5),ea=__webpack_require__(13),fa=__webpack_require__(14),ha=__webpack_require__(15),ia=__webpack_require__(16);
 function w(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:w("227");
 function ja(a){switch(a){case "svg":return"http://www.w3.org/2000/svg";case "math":return"http://www.w3.org/1998/Math/MathML";default:return"http://www.w3.org/1999/xhtml"}}
 var ka={Namespaces:{html:"http://www.w3.org/1999/xhtml",mathml:"http://www.w3.org/1998/Math/MathML",svg:"http://www.w3.org/2000/svg"},getIntrinsicNamespace:ja,getChildNamespace:function(a,b){return null==a||"http://www.w3.org/1999/xhtml"===a?ja(b):"http://www.w3.org/2000/svg"===a&&"foreignObject"===b?"http://www.w3.org/1999/xhtml":a}},la=null,oa={};
@@ -3590,7 +3590,7 @@ var react = __webpack_require__(3);
 var invariant = __webpack_require__(2);
 var ExecutionEnvironment = __webpack_require__(10);
 var _assign = __webpack_require__(4);
-var EventListener = __webpack_require__(11);
+var EventListener = __webpack_require__(12);
 var require$$0 = __webpack_require__(6);
 var hyphenateStyleName = __webpack_require__(26);
 var emptyFunction = __webpack_require__(1);
@@ -3599,10 +3599,10 @@ var performanceNow = __webpack_require__(30);
 var propTypes = __webpack_require__(32);
 var emptyObject = __webpack_require__(5);
 var checkPropTypes = __webpack_require__(8);
-var shallowEqual = __webpack_require__(12);
-var containsNode = __webpack_require__(13);
-var focusNode = __webpack_require__(14);
-var getActiveElement = __webpack_require__(15);
+var shallowEqual = __webpack_require__(13);
+var containsNode = __webpack_require__(14);
+var focusNode = __webpack_require__(15);
+var getActiveElement = __webpack_require__(16);
 
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -21671,7 +21671,7 @@ module.exports = function() {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21688,6 +21688,10 @@ var _square = __webpack_require__(36);
 
 var _square2 = _interopRequireDefault(_square);
 
+var _puzzle = __webpack_require__(11);
+
+var _puzzle2 = _interopRequireDefault(_puzzle);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21697,27 +21701,189 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Puzzle = function (_React$Component) {
-  _inherits(Puzzle, _React$Component);
+	_inherits(Puzzle, _React$Component);
 
-  function Puzzle() {
-    _classCallCheck(this, Puzzle);
+	function Puzzle(props) {
+		_classCallCheck(this, Puzzle);
 
-    return _possibleConstructorReturn(this, (Puzzle.__proto__ || Object.getPrototypeOf(Puzzle)).apply(this, arguments));
-  }
+		var _this = _possibleConstructorReturn(this, (Puzzle.__proto__ || Object.getPrototypeOf(Puzzle)).call(this, props));
 
-  _createClass(Puzzle, [{
-    key: 'render',
-    value: function render() {
-      var image_url = "http://wx1.sinaimg.cn/mw690/648ac377gy1fkvqdcwfeij20zk0oldoy.jpg";
-      return _react2.default.createElement(
-        'div',
-        { className: 'puzzle' },
-        _react2.default.createElement(_square2.default, { image_url: image_url, rows: 4, cols: 4, width: 400, height: 400 })
-      );
-    }
-  }]);
+		_this.max_width = 800;
+		_this.min_width = 100;
+		_this.max_height = 800;
+		_this.min_height = 100;
+		_this.max_cols = 100;
+		_this.min_cols = 3;
+		_this.max_rows = 100;
+		_this.min_rows = 3;
+		_this.state = { image_url: "image.jpg", width: 400, height: 400, cols: 3, rows: 3, show_seq: "N" };
 
-  return Puzzle;
+		_this.handleChange = _this.handleChange.bind(_this);
+		_this.changeImg = _this.changeImg.bind(_this);
+		_this.changeSize = _this.changeSize.bind(_this);
+		_this.changeGrid = _this.changeGrid.bind(_this);
+		return _this;
+	}
+
+	_createClass(Puzzle, [{
+		key: 'changeSize',
+		value: function changeSize(e) {
+			var name = e.target.getAttribute("name");
+			var width = this.state.width;
+			var height = this.state.height;
+			if (name == "addwidth") {
+				width = this.state.width + 50;
+			} else if (name == "subwidth") {
+				width = this.state.width - 50;
+			} else if (name == "addheight") {
+				height = this.state.height + 50;
+			} else if (name == "subheight") {
+				height = this.state.height - 50;
+			}
+			width = Math.max(Math.min(width, this.max_width), this.min_width);
+			height = Math.max(Math.min(height, this.max_height), this.min_height);
+			var state = { width: width, height: height };
+			this.setState(state);
+		}
+	}, {
+		key: 'changeGrid',
+		value: function changeGrid(e) {
+			var name = e.target.getAttribute("name");
+			var cols = this.state.cols;
+			var rows = this.state.rows;
+			if (name == "addcols") {
+				cols = this.state.cols + 1;
+			} else if (name == "subcols") {
+				cols = this.state.cols - 1;
+			} else if (name == "addrows") {
+				rows = this.state.rows + 1;
+			} else if (name == "subrows") {
+				rows = this.state.rows - 1;
+			}
+			cols = Math.max(Math.min(cols, this.max_cols), this.min_cols);
+			rows = Math.max(Math.min(rows, this.max_rows), this.min_rows);
+			var state = { cols: cols, rows: rows };
+			this.setState(state);
+		}
+	}, {
+		key: 'handleChange',
+		value: function handleChange(e) {
+			var name = e.target.getAttribute("name");
+			switch (name) {
+				case "image_url":
+					if (e.keyCode == 13) {
+						var state = { image_url: e.target.value };
+						this.setState(state);
+					}
+					break;
+				case "show_seq":
+					var state = this.state.show_seq == "Y" ? { show_seq: "N" } : { show_seq: "Y" };
+					this.setState(state);
+					break;
+			}
+		}
+	}, {
+		key: 'changeImg',
+		value: function changeImg(e) {
+			var image_url = e.target.getAttribute("src") || this.state.image_url;
+			this.setState({ image_url: image_url });
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var img_urls = ["image.jpg", "https://wx2.sinaimg.cn/mw690/648ac377gy1fkp3pz88udj20xc0pnwom.jpg", "https://wx1.sinaimg.cn/mw690/648ac377gy1fkshfc5zemj20sg0sg45d.jpg", "https://wx3.sinaimg.cn/mw690/648ac377gy1fkp3aen3qdj20zk0nwaha.jpg", "https://wx2.sinaimg.cn/mw690/648ac377gy1fkuouv6iwzj20rs0n57k0.jpg"];
+			var imgs = img_urls.map(function (url, index) {
+				return _react2.default.createElement(
+					'div',
+					{ key: index, className: _puzzle2.default.imgs },
+					_react2.default.createElement('img', { src: url, onClick: _this2.changeImg })
+				);
+			});
+
+			return _react2.default.createElement(
+				'div',
+				{ className: _puzzle2.default.puzzle },
+				_react2.default.createElement(
+					'div',
+					{ className: _puzzle2.default.header },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'\u62FC\u56FE\u6E38\u620F'
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: _puzzle2.default.sidebar },
+					_react2.default.createElement(
+						'div',
+						{ className: _puzzle2.default.rowButton },
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.width <= this.min_width ? true : false, name: 'subwidth', value: '-50', onClick: this.changeSize }),
+						_react2.default.createElement(
+							'span',
+							null,
+							this.state.width
+						),
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.width >= this.max_width ? true : false, name: 'addwidth', value: '+50', onClick: this.changeSize })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: _puzzle2.default.rowButton },
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.height <= this.min_height ? true : false, name: 'subheight', value: '-50', onClick: this.changeSize }),
+						_react2.default.createElement(
+							'span',
+							null,
+							this.state.height
+						),
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.height >= this.max_height ? true : false, name: 'addheight', value: '+50', onClick: this.changeSize })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: _puzzle2.default.rowButton },
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.cols <= this.min_cols ? true : false, name: 'subcols', value: '-1', onClick: this.changeGrid }),
+						_react2.default.createElement(
+							'span',
+							null,
+							this.state.cols
+						),
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.cols >= this.max_cols ? true : false, name: 'addcols', value: '+1', onClick: this.changeGrid })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: _puzzle2.default.rowButton },
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.rows <= this.min_rows ? true : false, name: 'subrows', value: '-1', onClick: this.changeGrid }),
+						_react2.default.createElement(
+							'span',
+							null,
+							this.state.rows
+						),
+						_react2.default.createElement('input', { type: 'button', disabled: this.state.rows >= this.max_rows ? true : false, name: 'addrows', value: '+1', onClick: this.changeGrid })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: _puzzle2.default.row },
+						_react2.default.createElement('input', { type: 'button', name: 'show_seq', value: this.state.show_seq == "Y" ? "hide pos" : "show pos", onClick: this.handleChange, placeholder: this.state.show_seq })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: _puzzle2.default.image_url },
+						_react2.default.createElement('input', { type: 'text', name: 'image_url', onKeyDown: this.handleChange, placeholder: '\u8F93\u5165\u56FE\u7247\u94FE\u63A5\u6309\u56DE\u8F66' })
+					),
+					imgs
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: _puzzle2.default.thumb },
+					_react2.default.createElement('img', { src: this.state.image_url })
+				),
+				_react2.default.createElement(_square2.default, { image_url: this.state.image_url, rows: this.state.rows, cols: this.state.cols, width: this.state.width, height: this.state.height, show_seq: this.state.show_seq })
+			);
+		}
+	}]);
+
+	return Puzzle;
 }(_react2.default.Component);
 
 exports.default = Puzzle;
@@ -21730,7 +21896,7 @@ exports.default = Puzzle;
 
 
 Object.defineProperty(exports, "__esModule", {
-		value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21747,7 +21913,7 @@ var _block = __webpack_require__(37);
 
 var _block2 = _interopRequireDefault(_block);
 
-var _puzzle = __webpack_require__(16);
+var _puzzle = __webpack_require__(11);
 
 var _puzzle2 = _interopRequireDefault(_puzzle);
 
@@ -21760,110 +21926,238 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Square = function (_React$Component) {
-		_inherits(Square, _React$Component);
+	_inherits(Square, _React$Component);
 
-		function Square(props) {
-				_classCallCheck(this, Square);
+	function Square(props) {
+		_classCallCheck(this, Square);
 
-				var _this = _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).call(this, props));
 
-				_this.make_blocks = _this.make_blocks.bind(_this);
-				_this.make_pos = _this.make_pos.bind(_this);
-				_this.shuffle = _this.shuffle.bind(_this);
-				_this.block_width = _this.block_width.bind(_this);
-				_this.block_height = _this.block_height.bind(_this);
+		_this.make_blocks = _this.make_blocks.bind(_this);
+		_this.make_pos = _this.make_pos.bind(_this);
+		_this.shuffle = _this.shuffle.bind(_this);
+		_this.block_width = _this.block_width.bind(_this);
+		_this.block_height = _this.block_height.bind(_this);
+		_this.handleClick = _this.handleClick.bind(_this);
+		_this.getValidPosRoundBlank = _this.getValidPosRoundBlank.bind(_this);
+		_this.win = _this.win.bind(_this);
 
-				_this.state = { pos: _this.make_pos() };
-				return _this;
+		_this.state = { moves: 0, blank: _this.props.cols * _this.props.rows - 1, start: false, pos: _this.make_pos() };
+		return _this;
+	}
+
+	_createClass(Square, [{
+		key: 'block_width',
+		value: function block_width() {
+			return (this.props.width - this.props.cols - 1) / this.props.cols;
 		}
+	}, {
+		key: 'block_height',
+		value: function block_height() {
+			return (this.props.height - this.props.rows - 1) / this.props.rows;
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.wincontainer = document.getElementById(_puzzle2.default.win);
+			this.shuffle();
+		}
+	}, {
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			if (this.props.width != nextProps.width || this.props.height != nextProps.height || this.props.cols != nextProps.cols || this.props.rows != nextProps.rows) {
+				var pos = [];
+				var width = (nextProps.width - nextProps.cols - 1) / nextProps.cols;
+				var height = (nextProps.height - nextProps.rows - 1) / nextProps.rows;
+				for (var i = 0; i < nextProps.rows; i++) {
+					for (var j = 0; j < nextProps.cols; j++) {
+						var top = i * (height + 1) + 1;
+						var left = j * (width + 1) + 1;
+						pos.push({ top: top, left: left, img_top: top, img_left: left });
+					}
+				}
+				this.setState({ moves: 0, blank: nextProps.cols * nextProps.rows - 1, start: false, pos: pos });
+			}
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			if (!this.state.start) return;
 
-		_createClass(Square, [{
-				key: 'block_width',
-				value: function block_width() {
-						return (this.props.width - this.props.cols - 1) / this.props.cols;
+			var win = true;
+			this.state.pos.forEach(function (pos) {
+				if (pos.top != pos.img_top || pos.left != pos.img_left) {
+					win = false;
 				}
-		}, {
-				key: 'block_height',
-				value: function block_height() {
-						return (this.props.height - this.props.rows - 1) / this.props.rows;
-				}
-		}, {
-				key: 'shuffle',
-				value: function shuffle() {
-						var block_number = this.props.rows * this.props.cols;
-						var pos = this.state.pos.slice(0);
-						for (var i = 0; i < 100; i++) {
-								var a = Math.ceil(Math.random() * 10 * block_number) % block_number;
-								var b = Math.ceil(Math.random() * 10 * block_number) % block_number;
-								var t = {};
-								t.top = pos[a].top;
-								t.left = pos[a].left;
-								pos[a].top = pos[b].top;
-								pos[a].left = pos[b].left;
-								pos[b].top = t.top;
-								pos[b].left = t.left;
-						}
-						this.setState({ pos: pos });
-				}
-		}, {
-				key: 'make_pos',
-				value: function make_pos() {
-						var pos = [];
-						for (var i = 0; i < this.props.rows; i++) {
-								for (var j = 0; j < this.props.cols; j++) {
-										var top = i * (this.block_height() + 1) + 1;
-										var left = j * (this.block_width() + 1) + 1;
-										pos.push({ top: top, left: left, img_top: top, img_left: left });
-								}
-						}
-						return pos;
-				}
-		}, {
-				key: 'make_blocks',
-				value: function make_blocks() {
-						var _this2 = this;
+			});
+			if (win) {
+				this.setState({ start: false });
+				this.win();
+			}
+		}
+	}, {
+		key: 'win',
+		value: function win() {
+			for (var i = 0; i < 1000; i++) {}
+			var cong = _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h1',
+					null,
+					'\u4F60\u8D62\u4E86!'
+				),
+				_react2.default.createElement(
+					'h1',
+					null,
+					'\u597D\u68D2!'
+				)
+			);
+			_reactDom2.default.render(cong, this.wincontainer);
+			this.wincontainer.style.display = "block";
+		}
+	}, {
+		key: 'handleClick',
+		value: function handleClick(e, seq) {
+			if (!this.state.start) return;
 
-						var blocks = this.state.pos.map(function (pos, index) {
-								return _react2.default.createElement(_block2.default, { key: index, image_url: _this2.props.image_url,
-										pos: { top: pos.top, left: pos.left },
-										img_pos: { top: pos.img_top, left: pos.img_left },
-										width: _this2.block_width(), height: _this2.block_height(),
-										square: { width: _this2.props.width, height: _this2.props.height } });
-						});
-						/*
-      let blocks = [];
-         for(let i=0; i<this.props.rows; i++) {
-           for(let j=0; j<this.props.cols; j++) {
-      	let index = i*this.props.cols+j;
-      	let top = i*(this.block_height()+1)+1;
-      	let left = j*(this.block_width()+1)+1;
-      	blocks.push(<Block key={index} image_url={this.props.image_url}
-                             pos={{top: top, left: left}}
-                             img_pos={{top: top, left: left}}
-                        	   width={this.block_width()} height={this.block_height()}
-                        	   square={{width: this.state.width, height: this.state.height}} />);
-           }
-         }
-         */
-						return blocks;
-				}
-		}, {
-				key: 'render',
-				value: function render() {
-						return _react2.default.createElement(
-								'div',
-								null,
-								_react2.default.createElement(
-										'div',
-										{ className: _puzzle2.default.square, style: { width: this.props.width, height: this.props.height } },
-										this.make_blocks()
-								),
-								_react2.default.createElement('input', { type: 'button', value: 'shuffle', onClick: this.shuffle })
-						);
-				}
-		}]);
+			var blank = this.state.blank;
+			if (seq == blank - 1 && blank % this.props.cols != 0 || seq == blank + 1 && blank % this.props.cols != this.props.cols - 1 || seq == blank - this.props.cols || seq == blank + this.props.cols) {
+				var pos = this.state.pos.slice(0);
+				var t = {};
+				t.img_top = pos[seq].img_top;
+				t.img_left = pos[seq].img_left;
+				pos[seq].img_top = pos[blank].img_top;
+				pos[seq].img_left = pos[blank].img_left;
+				pos[blank].img_top = t.img_top;
+				pos[blank].img_left = t.img_left;
+				this.setState({ moves: this.state.moves + 1, blank: seq, pos: pos });
+			}
+		}
+	}, {
+		key: 'getValidPosRoundBlank',
+		value: function getValidPosRoundBlank(blank) {
+			var ps = [];
+			var p = blank - 1;
+			if (p >= 0 && blank % this.props.cols != 0) ps.push(p);
+			p = blank + 1;
+			if (p < this.state.pos.length && blank % this.props.cols != this.props.cols - 1) ps.push(p);
+			p = blank + this.props.cols;
+			if (p < this.state.pos.length) ps.push(p);
+			p = blank - this.props.cols;
+			if (p >= 0) ps.push(p);
 
-		return Square;
+			var i = Math.ceil(Math.random() * 10) % ps.length;
+			return ps[i];
+		}
+	}, {
+		key: 'shuffle',
+		value: function shuffle() {
+			this.wincontainer.style.display = "none";
+			if (this.state.start) {
+				this.setState({ moves: 0, blank: this.props.cols * this.props.rows - 1, start: false, pos: this.make_pos() });
+			} else {
+				var block_number = this.props.rows * this.props.cols;
+				var pos = this.state.pos.slice(0);
+				var blank = this.state.blank;
+				for (var i = 0; i < 100000; i++) {
+					/*
+      	let a = Math.ceil(Math.random()*10*block_number) % block_number;
+      	let b = Math.ceil(Math.random()*10*block_number) % block_number;
+      	if(a == blank) {
+      		blank = b;
+      	} else if(b == blank) {
+      		blank = a;
+      	}
+      	let t = {};
+      	t.img_top = pos[a].img_top;
+      	t.img_left = pos[a].img_left;
+      	pos[a].img_top = pos[b].img_top;
+      	pos[a].img_left = pos[b].img_left;
+      	pos[b].img_top = t.img_top;
+      	pos[b].img_left = t.img_left;
+     */
+					var a = this.getValidPosRoundBlank(blank);
+					var t = {};
+					t.img_top = pos[a].img_top;
+					t.img_left = pos[a].img_left;
+					pos[a].img_top = pos[blank].img_top;
+					pos[a].img_left = pos[blank].img_left;
+					pos[blank].img_top = t.img_top;
+					pos[blank].img_left = t.img_left;
+					blank = a;
+				}
+				this.setState({ moves: 0, start: true, blank: blank, pos: pos });
+			}
+		}
+	}, {
+		key: 'make_pos',
+		value: function make_pos() {
+			var pos = [];
+			for (var i = 0; i < this.props.rows; i++) {
+				for (var j = 0; j < this.props.cols; j++) {
+					var top = i * (this.block_height() + 1) + 1;
+					var left = j * (this.block_width() + 1) + 1;
+					pos.push({ top: top, left: left, img_top: top, img_left: left });
+				}
+			}
+			return pos;
+		}
+	}, {
+		key: 'make_blocks',
+		value: function make_blocks() {
+			var _this2 = this;
+
+			var blocks = this.state.pos.map(function (pos, index) {
+				return _react2.default.createElement(_block2.default, { key: index, seq: index, image_url: _this2.props.image_url,
+					blank: index == _this2.state.blank ? true : false,
+					handleClick: _this2.handleClick,
+					pos: { top: pos.top, left: pos.left },
+					img_pos: { top: pos.img_top, left: pos.img_left },
+					width: _this2.block_width(), height: _this2.block_height(),
+					show_seq: _this2.props.show_seq,
+					square: { width: _this2.props.width, height: _this2.props.height } });
+			});
+			return blocks;
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: _puzzle2.default.squarewraper },
+				_react2.default.createElement(
+					'div',
+					{ className: _puzzle2.default.square, style: { width: this.props.width, height: this.props.height } },
+					this.make_blocks(),
+					_react2.default.createElement('div', { id: _puzzle2.default.win })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: _puzzle2.default.squarebuttons },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'moves: ',
+						this.state.moves
+					),
+					_react2.default.createElement('input', { type: 'button', value: this.state.start ? "重来" : "开始", onClick: this.shuffle })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: _puzzle2.default.foot },
+					'Designed by zk 2017.10.28 ',
+					_react2.default.createElement(
+						'a',
+						{ href: 'https://github.com/ynzkai/puzzle' },
+						'github'
+					)
+				)
+			);
+		}
+	}]);
+
+	return Square;
 }(_react2.default.Component);
 
 exports.default = Square;
@@ -21889,7 +22183,7 @@ var _reactDom = __webpack_require__(7);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _puzzle = __webpack_require__(16);
+var _puzzle = __webpack_require__(11);
 
 var _puzzle2 = _interopRequireDefault(_puzzle);
 
@@ -21919,13 +22213,22 @@ var Block = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
-        { className: _puzzle2.default.block, style: { top: this.props.pos.top, left: this.props.pos.left, width: this.props.width, height: this.props.height } },
+        { className: _puzzle2.default.block, onClick: function onClick(e) {
+            _this2.props.handleClick(e, _this2.props.seq);
+          }, style: { top: this.props.pos.top, left: this.props.pos.left, width: this.props.width, height: this.props.height, opacity: this.props.blank ? .05 : 1 } },
         _react2.default.createElement(
           'div',
           { className: _puzzle2.default.inner },
-          _react2.default.createElement('img', { src: this.props.image_url, title: 'Puzzle image', style: { top: this.props.img_pos.top * -1, left: this.props.img_pos.left * -1, width: this.props.square.width, height: this.props.square.height } })
+          _react2.default.createElement('img', { src: this.props.image_url, style: { top: this.props.img_pos.top * -1, left: this.props.img_pos.left * -1, width: this.props.square.width, height: this.props.square.height } }),
+          this.props.show_seq == "Y" ? _react2.default.createElement(
+            'span',
+            null,
+            Math.round(this.props.img_pos.top) + ", " + Math.round(this.props.img_pos.left)
+          ) : ""
         )
       );
     }
@@ -21945,13 +22248,25 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "._1UDS8FscxwfnF2cnf5kIrz {\n\tposition: relative;\n\tbackground: #222;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr {\n\tposition: relative;\n\toverflow: hidden;\n\twidth: 100%;\n\theight: 100%;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr img {\n\tposition: absolute;\n\tcursor: pointer;\n}\n", ""]);
+exports.push([module.i, "/* puzzle */\n._20S7oP6luBf-NmalphkKm_ ._2UMh9P-qicunr5EoAswFyz {\n\ttext-align: center;\n\tpadding: .5em;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC {\n\tposition: absolute;\n\ttop: 1em;\n\tleft: 1em;\n\tz-index: 999;\n}\n._20S7oP6luBf-NmalphkKm_ ._4zWp02WzWu83gPLS1I27q,\n._20S7oP6luBf-NmalphkKm_ ._3OKbVB-5BmAzmesIK3cMVB,\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 {\n\tmargin: 5px 0;\n}\n._20S7oP6luBf-NmalphkKm_ input {\n\toutline: none;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 {\n\tposition: relative;\n\twidth: 100px;\n\theight: 1.5em;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input {\n\tline-height: 1.5;\n\twidth: 100px;\n\tposition: absolute;\n\ttransition: all 1s;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input:focus {\n\twidth: 300px;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 input {\n\twidth: 30%;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 span {\n\tpadding: 0 6px;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC img {\n\twidth: 100px;\n\theight: 100px;\n\tcursor: pointer;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e {\n\tposition: absolute;\n\twidth: 200px;\n\theight: 200px;\n\tright: 0.5em;\n\toverflow: hidden;\n\tborder: 1px solid #222;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e img {\n\theight: 100%;\n}\n/* square */\n._1UDS8FscxwfnF2cnf5kIrz {\n\tposition: relative;\n\tmargin: 0 auto;\n\tbackground: #222;\n}\n._1nOAmW-bODKMg3ef3tP2MA ._3voyMP818GfRg0qaBUyBol {\n\ttext-align: center;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr {\n\tposition: relative;\n\toverflow: hidden;\n\twidth: 100%;\n\theight: 100%;\n}\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr span {\n\tpadding: 3px;\n\tposition: absolute;\n\tfont-size: 1em;\n\tcolor: #fff;\n\tz-index: 998;\n\tbackground: rgba(22,22,22,.5);\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr img {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr:hover:after {\n\tcontent: \"\";\n\tdisplay: block;\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbackground-color: #fff;\n\topacity: .3;\n}\n\n._1nOAmW-bODKMg3ef3tP2MA {\n}\n.v2IaIQE5bpIQdzaoD8g6s {\n\tpadding: 2em 0;\n\tmargin: 0 auto;\n\ttext-align: center;\n}\n.v2IaIQE5bpIQdzaoD8g6s input {\n\n}\n\n#_1Jcc7hVcakOwqRWhJAJy0- {\n\tposition: absolute;\n\ttext-align: center;\n\tpadding-top: 0.7em;\n\tbox-sizing: border-box;\n\t-webkit-box-sizing: border-box;\n\t-moz-box-sizing: border-box;\n\t-ms-box-sizing: border-box;\n\t-o-box-sizing: border-box;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tline-height: 100%;\n\tz-index: 1001;\n\tbackground: rgba(255,80,0,.5);\n\tdisplay: none;\n\ttransition: all 1s;\n}\n#_1Jcc7hVcakOwqRWhJAJy0- h1 {\n\tline-height: 1;\n\tfont-size: 5em;\n\tcolor: #0099ff;\n}\n", ""]);
 
 // exports
 exports.locals = {
+	"puzzle": "_20S7oP6luBf-NmalphkKm_",
+	"header": "_2UMh9P-qicunr5EoAswFyz",
+	"sidebar": "u_Xe_3p5udrs_-eS8w4lC",
+	"imgs": "_4zWp02WzWu83gPLS1I27q",
+	"row": "_3OKbVB-5BmAzmesIK3cMVB",
+	"rowButton": "_3CtMsRh0_uFjfNfA5tS3-4",
+	"image_url": "_2xrUJNkvWL9AzM6CmRgD73",
+	"thumb": "_1NBIhNbn1G4FX960WWsM4e",
 	"square": "_1UDS8FscxwfnF2cnf5kIrz",
+	"squarewraper": "_1nOAmW-bODKMg3ef3tP2MA",
+	"foot": "_3voyMP818GfRg0qaBUyBol",
 	"block": "_2owm9ID-5Dtp-IF1F-gvMH",
-	"inner": "_2LdER4DjTnz0vep6hd8Wcr"
+	"inner": "_2LdER4DjTnz0vep6hd8Wcr",
+	"squarebuttons": "v2IaIQE5bpIQdzaoD8g6s",
+	"win": "_1Jcc7hVcakOwqRWhJAJy0-"
 };
 
 /***/ }),

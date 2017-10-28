@@ -1,6 +1,66 @@
+/* puzzle */
+.puzzle .header {
+	text-align: center;
+	padding: .5em;
+}
+.puzzle .sidebar {
+	position: absolute;
+	top: 1em;
+	left: 1em;
+	z-index: 999;
+}
+.puzzle .imgs,
+.puzzle .row,
+.puzzle .rowButton {
+	margin: 5px 0;
+}
+.puzzle input {
+	outline: none;
+}
+.puzzle .image_url {
+	position: relative;
+	width: 100px;
+	height: 1.5em;
+}
+.puzzle .image_url input {
+	line-height: 1.5;
+	width: 100px;
+	position: absolute;
+	transition: all 1s;
+}
+.puzzle .image_url input:focus {
+	width: 300px;
+}
+.puzzle .rowButton input {
+	width: 30%;
+}
+.puzzle .rowButton span {
+	padding: 0 6px;
+}
+.puzzle .sidebar img {
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+}
+.puzzle .thumb {
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	right: 0.5em;
+	overflow: hidden;
+	border: 1px solid #222;
+}
+.puzzle .thumb img {
+	height: 100%;
+}
+/* square */
 .square {
 	position: relative;
+	margin: 0 auto;
 	background: #222;
+}
+.squarewraper .foot {
+	text-align: center;
 }
 
 .block {
@@ -13,8 +73,63 @@
 	width: 100%;
 	height: 100%;
 }
+.block .inner span {
+	padding: 3px;
+	position: absolute;
+	font-size: 1em;
+	color: #fff;
+	z-index: 998;
+	background: rgba(22,22,22,.5);
+}
 
 .block .inner img {
 	position: absolute;
-	cursor: pointer;
+}
+
+.block .inner:hover:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	opacity: .3;
+}
+
+.squarewraper {
+}
+.squarebuttons {
+	padding: 2em 0;
+	margin: 0 auto;
+	text-align: center;
+}
+.squarebuttons input {
+
+}
+
+#win {
+	position: absolute;
+	text-align: center;
+	padding-top: 0.7em;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	line-height: 100%;
+	z-index: 1001;
+	background: rgba(255,80,0,.5);
+	display: none;
+	transition: all 1s;
+}
+#win h1 {
+	line-height: 1;
+	font-size: 5em;
+	color: #0099ff;
 }
