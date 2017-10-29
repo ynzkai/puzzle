@@ -64,6 +64,7 @@
 
 .block {
 	position: absolute;
+	transition: opacity 100ms;
 }
 
 .block .inner {

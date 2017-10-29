@@ -57,6 +57,7 @@ export default class Square extends React.Component {
 		win = false;
 	  }
 	});
+	win = true;
 	if(win) {
 	  this.setState({start: false});
 	  this.win();
@@ -72,9 +73,9 @@ export default class Square extends React.Component {
 	for(let i=0; i<4*number; i++) {
 	  let pos = i%number;
 	  if(pos == 0) flag = !flag;
-	  let display = flag ? "none" : "block";
+	  let opacity = flag ? 0 : 1;
 	  setTimeout(() =>{
-	    blocks[pos].style.display = display;
+	    blocks[pos].style.opacity = opacity;
 	  }, 50*i);
 	}
 

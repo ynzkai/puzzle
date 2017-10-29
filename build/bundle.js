@@ -21990,6 +21990,7 @@ var Square = function (_React$Component) {
 					win = false;
 				}
 			});
+			win = true;
 			if (win) {
 				this.setState({ start: false });
 				this.win();
@@ -22007,9 +22008,9 @@ var Square = function (_React$Component) {
 			var _loop = function _loop(i) {
 				var pos = i % number;
 				if (pos == 0) flag = !flag;
-				var display = flag ? "none" : "block";
+				var opacity = flag ? 0 : 1;
 				setTimeout(function () {
-					blocks[pos].style.display = display;
+					blocks[pos].style.opacity = opacity;
 				}, 50 * i);
 			};
 
@@ -22228,10 +22229,10 @@ var Block = function (_React$Component) {
         'div',
         { className: _puzzle2.default.block, onClick: function onClick(e) {
             _this2.props.handleClick(e, _this2.props.seq);
-          }, style: { top: this.props.pos.top, left: this.props.pos.left, width: this.props.width, height: this.props.height, opacity: this.props.blank ? .05 : 1 } },
+          }, style: { top: this.props.pos.top, left: this.props.pos.left, width: this.props.width, height: this.props.height } },
         _react2.default.createElement(
           'div',
-          { className: _puzzle2.default.inner },
+          { className: _puzzle2.default.inner, style: { opacity: this.props.blank ? .05 : 1 } },
           _react2.default.createElement('img', { src: this.props.image_url, style: { top: this.props.img_pos.top * -1, left: this.props.img_pos.left * -1, width: this.props.square.width, height: this.props.square.height } }),
           this.props.show_seq == "Y" ? _react2.default.createElement(
             'span',
@@ -22257,7 +22258,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "/* puzzle */\n._20S7oP6luBf-NmalphkKm_ ._2UMh9P-qicunr5EoAswFyz {\n\ttext-align: center;\n\tpadding: .5em;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC {\n\tposition: absolute;\n\ttop: 1em;\n\tleft: 1em;\n\tz-index: 999;\n}\n._20S7oP6luBf-NmalphkKm_ ._4zWp02WzWu83gPLS1I27q,\n._20S7oP6luBf-NmalphkKm_ ._3OKbVB-5BmAzmesIK3cMVB,\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 {\n\tmargin: 5px 0;\n}\n._20S7oP6luBf-NmalphkKm_ input {\n\toutline: none;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 {\n\tposition: relative;\n\twidth: 100px;\n\theight: 1.5em;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input {\n\tline-height: 1.5;\n\twidth: 100px;\n\tposition: absolute;\n\ttransition: all 1s;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input:focus {\n\twidth: 300px;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 input {\n\twidth: 30%;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 span {\n\tpadding: 0 6px;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC img {\n\twidth: 100px;\n\theight: 100px;\n\tcursor: pointer;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e {\n\tposition: absolute;\n\twidth: 200px;\n\tright: 0.5em;\n\toverflow: hidden;\n\tborder: 1px solid #222;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e img {\n\twidth: 100%;\n}\n/* square */\n._1UDS8FscxwfnF2cnf5kIrz {\n\tposition: relative;\n\tmargin: 0 auto;\n\tbackground: #222;\n}\n._1nOAmW-bODKMg3ef3tP2MA ._3voyMP818GfRg0qaBUyBol {\n\ttext-align: center;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr {\n\tposition: relative;\n\toverflow: hidden;\n\twidth: 100%;\n\theight: 100%;\n}\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr span {\n\tpadding: 3px;\n\tposition: absolute;\n\tfont-size: 1em;\n\tcolor: #fff;\n\tz-index: 998;\n\tbackground: rgba(22,22,22,.5);\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr img {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr:hover:after {\n\tcontent: \"\";\n\tdisplay: block;\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbackground-color: #fff;\n\topacity: .3;\n}\n\n._1nOAmW-bODKMg3ef3tP2MA {\n}\n.v2IaIQE5bpIQdzaoD8g6s {\n\tpadding: 2em 0;\n\tmargin: 0 auto;\n\ttext-align: center;\n}\n.v2IaIQE5bpIQdzaoD8g6s input {\n\n}\n\n#_1Jcc7hVcakOwqRWhJAJy0- {\n\tposition: absolute;\n\ttext-align: center;\n\tpadding-top: 50%;\n\tbox-sizing: border-box;\n\t-webkit-box-sizing: border-box;\n\t-moz-box-sizing: border-box;\n\t-ms-box-sizing: border-box;\n\t-o-box-sizing: border-box;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tline-height: 100%;\n\tz-index: 1001;\n\tbackground: rgba(255,255,255,.0);\n\tdisplay: none;\n\ttransition: all 1s;\n}\n#_1Jcc7hVcakOwqRWhJAJy0- h1 {\n\tmargin: -1em;\n\tline-height: 1;\n\tfont-size: 2em;\n\ttext-shadow: 0 0 100px #f22;\n\tcolor: #ff0000;\n}\n", ""]);
+exports.push([module.i, "/* puzzle */\n._20S7oP6luBf-NmalphkKm_ ._2UMh9P-qicunr5EoAswFyz {\n\ttext-align: center;\n\tpadding: .5em;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC {\n\tposition: absolute;\n\ttop: 1em;\n\tleft: 1em;\n\tz-index: 999;\n}\n._20S7oP6luBf-NmalphkKm_ ._4zWp02WzWu83gPLS1I27q,\n._20S7oP6luBf-NmalphkKm_ ._3OKbVB-5BmAzmesIK3cMVB,\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 {\n\tmargin: 5px 0;\n}\n._20S7oP6luBf-NmalphkKm_ input {\n\toutline: none;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 {\n\tposition: relative;\n\twidth: 100px;\n\theight: 1.5em;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input {\n\tline-height: 1.5;\n\twidth: 100px;\n\tposition: absolute;\n\ttransition: all 1s;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input:focus {\n\twidth: 300px;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 input {\n\twidth: 30%;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 span {\n\tpadding: 0 6px;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC img {\n\twidth: 100px;\n\theight: 100px;\n\tcursor: pointer;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e {\n\tposition: absolute;\n\twidth: 200px;\n\tright: 0.5em;\n\toverflow: hidden;\n\tborder: 1px solid #222;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e img {\n\twidth: 100%;\n}\n/* square */\n._1UDS8FscxwfnF2cnf5kIrz {\n\tposition: relative;\n\tmargin: 0 auto;\n\tbackground: #222;\n}\n._1nOAmW-bODKMg3ef3tP2MA ._3voyMP818GfRg0qaBUyBol {\n\ttext-align: center;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH {\n\tposition: absolute;\n\ttransition: opacity 100ms;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr {\n\tposition: relative;\n\toverflow: hidden;\n\twidth: 100%;\n\theight: 100%;\n}\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr span {\n\tpadding: 3px;\n\tposition: absolute;\n\tfont-size: 1em;\n\tcolor: #fff;\n\tz-index: 998;\n\tbackground: rgba(22,22,22,.5);\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr img {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr:hover:after {\n\tcontent: \"\";\n\tdisplay: block;\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbackground-color: #fff;\n\topacity: .3;\n}\n\n._1nOAmW-bODKMg3ef3tP2MA {\n}\n.v2IaIQE5bpIQdzaoD8g6s {\n\tpadding: 2em 0;\n\tmargin: 0 auto;\n\ttext-align: center;\n}\n.v2IaIQE5bpIQdzaoD8g6s input {\n\n}\n\n#_1Jcc7hVcakOwqRWhJAJy0- {\n\tposition: absolute;\n\ttext-align: center;\n\tpadding-top: 50%;\n\tbox-sizing: border-box;\n\t-webkit-box-sizing: border-box;\n\t-moz-box-sizing: border-box;\n\t-ms-box-sizing: border-box;\n\t-o-box-sizing: border-box;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tline-height: 100%;\n\tz-index: 1001;\n\tbackground: rgba(255,255,255,.0);\n\tdisplay: none;\n\ttransition: all 1s;\n}\n#_1Jcc7hVcakOwqRWhJAJy0- h1 {\n\tmargin: -1em;\n\tline-height: 1;\n\tfont-size: 2em;\n\ttext-shadow: 0 0 100px #f22;\n\tcolor: #ff0000;\n}\n", ""]);
 
 // exports
 exports.locals = {
