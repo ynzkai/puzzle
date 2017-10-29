@@ -64,9 +64,21 @@ export default class Square extends React.Component {
   }
 
   win() {
-    for(let i=0; i<1000; i++) {
+
+	let blocks = ReactDOM.findDOMNode(this.refs.square).childNodes;
+	let number = this.props.cols*this.props.rows;
+	// 动画
+	let flag = false;
+	for(let i=0; i<4*number; i++) {
+	  let pos = i%number;
+	  if(pos == 0) flag = !flag;
+	  let display = flag ? "none" : "block";
+	  setTimeout(() =>{
+	    blocks[pos].style.display = display;
+	  }, 50*i);
 	}
-	let cong = <div><h1>你赢了!</h1><h1>好棒!</h1></div>;
+
+	let cong = <h1>你赢了!</h1>;
 	ReactDOM.render(cong, this.wincontainer);
 	this.wincontainer.style.display = "block";
   }
@@ -175,15 +187,15 @@ export default class Square extends React.Component {
   render() {
     return (
       <div className={css.squarewraper}>
-        <div className={css.square} style={{width: this.props.width, height: this.props.height}}>
+        <div className={css.square} ref="square" style={{width: this.props.width, height: this.props.height}}>
 	      {this.make_blocks()}
 		  <div id={css.win}></div>
         </div>
         <div className={css.squarebuttons}>
 		  <h3>moves: {this.state.moves}</h3>
-	      <input type="button" value={this.state.start ? "重来" : "开始"} onClick={this.shuffle} />
+	      <input type="button" ref="shuffle" value={this.state.start ? "重来" : "开始"} onClick={this.shuffle} />
 	    </div>
-		<div className={css.foot}>
+		<div className={css.foot} ref="win">
           Designed by zk 2017.10.28 <a href="https://github.com/ynzkai/puzzle">github</a>
 		</div>
 	  </div>

@@ -85,10 +85,9 @@ export default class Puzzle extends React.Component {
 
   render() {
 	let img_urls = [ "image.jpg",
-		             "https://wx2.sinaimg.cn/mw690/648ac377gy1fkp3pz88udj20xc0pnwom.jpg",
-				     "https://wx1.sinaimg.cn/mw690/648ac377gy1fkshfc5zemj20sg0sg45d.jpg",
-				     "https://wx3.sinaimg.cn/mw690/648ac377gy1fkp3aen3qdj20zk0nwaha.jpg",
-					 "https://wx2.sinaimg.cn/mw690/648ac377gy1fkuouv6iwzj20rs0n57k0.jpg" ];
+	                 "image4.jpg",
+	                 "image3.jpg",
+	                 "image5.jpg" ];
 	let imgs = img_urls.map((url, index) => {
 		         return <div key={index} className={css.imgs}><img src={url} onClick={this.changeImg} /></div>
 		       });

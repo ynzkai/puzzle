@@ -45,13 +45,12 @@
 .puzzle .thumb {
 	position: absolute;
 	width: 200px;
-	height: 200px;
 	right: 0.5em;
 	overflow: hidden;
 	border: 1px solid #222;
 }
 .puzzle .thumb img {
-	height: 100%;
+	width: 100%;
 }
 /* square */
 .square {
@@ -112,7 +111,7 @@
 #win {
 	position: absolute;
 	text-align: center;
-	padding-top: 0.7em;
+	padding-top: 50%;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -124,12 +123,14 @@
 	height: 100%;
 	line-height: 100%;
 	z-index: 1001;
-	background: rgba(255,80,0,.5);
+	background: rgba(255,255,255,.0);
 	display: none;
 	transition: all 1s;
 }
 #win h1 {
+	margin: -1em;
 	line-height: 1;
-	font-size: 5em;
-	color: #0099ff;
+	font-size: 2em;
+	text-shadow: 0 0 100px #f22;
+	color: #ff0000;
 }

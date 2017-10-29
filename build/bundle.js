@@ -21793,7 +21793,7 @@ var Puzzle = function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
-			var img_urls = ["image.jpg", "https://wx2.sinaimg.cn/mw690/648ac377gy1fkp3pz88udj20xc0pnwom.jpg", "https://wx1.sinaimg.cn/mw690/648ac377gy1fkshfc5zemj20sg0sg45d.jpg", "https://wx3.sinaimg.cn/mw690/648ac377gy1fkp3aen3qdj20zk0nwaha.jpg", "https://wx2.sinaimg.cn/mw690/648ac377gy1fkuouv6iwzj20rs0n57k0.jpg"];
+			var img_urls = ["image.jpg", "image4.jpg", "image3.jpg", "image5.jpg"];
 			var imgs = img_urls.map(function (url, index) {
 				return _react2.default.createElement(
 					'div',
@@ -21998,20 +21998,29 @@ var Square = function (_React$Component) {
 	}, {
 		key: 'win',
 		value: function win() {
-			for (var i = 0; i < 1000; i++) {}
+
+			var blocks = _reactDom2.default.findDOMNode(this.refs.square).childNodes;
+			var number = this.props.cols * this.props.rows;
+			// 动画
+			var flag = false;
+
+			var _loop = function _loop(i) {
+				var pos = i % number;
+				if (pos == 0) flag = !flag;
+				var display = flag ? "none" : "block";
+				setTimeout(function () {
+					blocks[pos].style.display = display;
+				}, 50 * i);
+			};
+
+			for (var i = 0; i < 4 * number; i++) {
+				_loop(i);
+			}
+
 			var cong = _react2.default.createElement(
-				'div',
+				'h1',
 				null,
-				_react2.default.createElement(
-					'h1',
-					null,
-					'\u4F60\u8D62\u4E86!'
-				),
-				_react2.default.createElement(
-					'h1',
-					null,
-					'\u597D\u68D2!'
-				)
+				'\u4F60\u8D62\u4E86!'
 			);
 			_reactDom2.default.render(cong, this.wincontainer);
 			this.wincontainer.style.display = "block";
@@ -22023,15 +22032,15 @@ var Square = function (_React$Component) {
 
 			var blank = this.state.blank;
 			if (seq == blank - 1 && blank % this.props.cols != 0 || seq == blank + 1 && blank % this.props.cols != this.props.cols - 1 || seq == blank - this.props.cols || seq == blank + this.props.cols) {
-				var pos = this.state.pos.slice(0);
+				var _pos = this.state.pos.slice(0);
 				var t = {};
-				t.img_top = pos[seq].img_top;
-				t.img_left = pos[seq].img_left;
-				pos[seq].img_top = pos[blank].img_top;
-				pos[seq].img_left = pos[blank].img_left;
-				pos[blank].img_top = t.img_top;
-				pos[blank].img_left = t.img_left;
-				this.setState({ moves: this.state.moves + 1, blank: seq, pos: pos });
+				t.img_top = _pos[seq].img_top;
+				t.img_left = _pos[seq].img_left;
+				_pos[seq].img_top = _pos[blank].img_top;
+				_pos[seq].img_left = _pos[blank].img_left;
+				_pos[blank].img_top = t.img_top;
+				_pos[blank].img_left = t.img_left;
+				this.setState({ moves: this.state.moves + 1, blank: seq, pos: _pos });
 			}
 		}
 	}, {
@@ -22058,7 +22067,7 @@ var Square = function (_React$Component) {
 				this.setState({ moves: 0, blank: this.props.cols * this.props.rows - 1, start: false, pos: this.make_pos() });
 			} else {
 				var block_number = this.props.rows * this.props.cols;
-				var pos = this.state.pos.slice(0);
+				var _pos2 = this.state.pos.slice(0);
 				var blank = this.state.blank;
 				for (var i = 0; i < 100000; i++) {
 					/*
@@ -22079,15 +22088,15 @@ var Square = function (_React$Component) {
      */
 					var a = this.getValidPosRoundBlank(blank);
 					var t = {};
-					t.img_top = pos[a].img_top;
-					t.img_left = pos[a].img_left;
-					pos[a].img_top = pos[blank].img_top;
-					pos[a].img_left = pos[blank].img_left;
-					pos[blank].img_top = t.img_top;
-					pos[blank].img_left = t.img_left;
+					t.img_top = _pos2[a].img_top;
+					t.img_left = _pos2[a].img_left;
+					_pos2[a].img_top = _pos2[blank].img_top;
+					_pos2[a].img_left = _pos2[blank].img_left;
+					_pos2[blank].img_top = t.img_top;
+					_pos2[blank].img_left = t.img_left;
 					blank = a;
 				}
-				this.setState({ moves: 0, start: true, blank: blank, pos: pos });
+				this.setState({ moves: 0, start: true, blank: blank, pos: _pos2 });
 			}
 		}
 	}, {
@@ -22128,7 +22137,7 @@ var Square = function (_React$Component) {
 				{ className: _puzzle2.default.squarewraper },
 				_react2.default.createElement(
 					'div',
-					{ className: _puzzle2.default.square, style: { width: this.props.width, height: this.props.height } },
+					{ className: _puzzle2.default.square, ref: 'square', style: { width: this.props.width, height: this.props.height } },
 					this.make_blocks(),
 					_react2.default.createElement('div', { id: _puzzle2.default.win })
 				),
@@ -22141,11 +22150,11 @@ var Square = function (_React$Component) {
 						'moves: ',
 						this.state.moves
 					),
-					_react2.default.createElement('input', { type: 'button', value: this.state.start ? "重来" : "开始", onClick: this.shuffle })
+					_react2.default.createElement('input', { type: 'button', ref: 'shuffle', value: this.state.start ? "重来" : "开始", onClick: this.shuffle })
 				),
 				_react2.default.createElement(
 					'div',
-					{ className: _puzzle2.default.foot },
+					{ className: _puzzle2.default.foot, ref: 'win' },
 					'Designed by zk 2017.10.28 ',
 					_react2.default.createElement(
 						'a',
@@ -22248,7 +22257,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "/* puzzle */\n._20S7oP6luBf-NmalphkKm_ ._2UMh9P-qicunr5EoAswFyz {\n\ttext-align: center;\n\tpadding: .5em;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC {\n\tposition: absolute;\n\ttop: 1em;\n\tleft: 1em;\n\tz-index: 999;\n}\n._20S7oP6luBf-NmalphkKm_ ._4zWp02WzWu83gPLS1I27q,\n._20S7oP6luBf-NmalphkKm_ ._3OKbVB-5BmAzmesIK3cMVB,\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 {\n\tmargin: 5px 0;\n}\n._20S7oP6luBf-NmalphkKm_ input {\n\toutline: none;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 {\n\tposition: relative;\n\twidth: 100px;\n\theight: 1.5em;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input {\n\tline-height: 1.5;\n\twidth: 100px;\n\tposition: absolute;\n\ttransition: all 1s;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input:focus {\n\twidth: 300px;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 input {\n\twidth: 30%;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 span {\n\tpadding: 0 6px;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC img {\n\twidth: 100px;\n\theight: 100px;\n\tcursor: pointer;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e {\n\tposition: absolute;\n\twidth: 200px;\n\theight: 200px;\n\tright: 0.5em;\n\toverflow: hidden;\n\tborder: 1px solid #222;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e img {\n\theight: 100%;\n}\n/* square */\n._1UDS8FscxwfnF2cnf5kIrz {\n\tposition: relative;\n\tmargin: 0 auto;\n\tbackground: #222;\n}\n._1nOAmW-bODKMg3ef3tP2MA ._3voyMP818GfRg0qaBUyBol {\n\ttext-align: center;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr {\n\tposition: relative;\n\toverflow: hidden;\n\twidth: 100%;\n\theight: 100%;\n}\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr span {\n\tpadding: 3px;\n\tposition: absolute;\n\tfont-size: 1em;\n\tcolor: #fff;\n\tz-index: 998;\n\tbackground: rgba(22,22,22,.5);\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr img {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr:hover:after {\n\tcontent: \"\";\n\tdisplay: block;\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbackground-color: #fff;\n\topacity: .3;\n}\n\n._1nOAmW-bODKMg3ef3tP2MA {\n}\n.v2IaIQE5bpIQdzaoD8g6s {\n\tpadding: 2em 0;\n\tmargin: 0 auto;\n\ttext-align: center;\n}\n.v2IaIQE5bpIQdzaoD8g6s input {\n\n}\n\n#_1Jcc7hVcakOwqRWhJAJy0- {\n\tposition: absolute;\n\ttext-align: center;\n\tpadding-top: 0.7em;\n\tbox-sizing: border-box;\n\t-webkit-box-sizing: border-box;\n\t-moz-box-sizing: border-box;\n\t-ms-box-sizing: border-box;\n\t-o-box-sizing: border-box;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tline-height: 100%;\n\tz-index: 1001;\n\tbackground: rgba(255,80,0,.5);\n\tdisplay: none;\n\ttransition: all 1s;\n}\n#_1Jcc7hVcakOwqRWhJAJy0- h1 {\n\tline-height: 1;\n\tfont-size: 5em;\n\tcolor: #0099ff;\n}\n", ""]);
+exports.push([module.i, "/* puzzle */\n._20S7oP6luBf-NmalphkKm_ ._2UMh9P-qicunr5EoAswFyz {\n\ttext-align: center;\n\tpadding: .5em;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC {\n\tposition: absolute;\n\ttop: 1em;\n\tleft: 1em;\n\tz-index: 999;\n}\n._20S7oP6luBf-NmalphkKm_ ._4zWp02WzWu83gPLS1I27q,\n._20S7oP6luBf-NmalphkKm_ ._3OKbVB-5BmAzmesIK3cMVB,\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 {\n\tmargin: 5px 0;\n}\n._20S7oP6luBf-NmalphkKm_ input {\n\toutline: none;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 {\n\tposition: relative;\n\twidth: 100px;\n\theight: 1.5em;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input {\n\tline-height: 1.5;\n\twidth: 100px;\n\tposition: absolute;\n\ttransition: all 1s;\n}\n._20S7oP6luBf-NmalphkKm_ ._2xrUJNkvWL9AzM6CmRgD73 input:focus {\n\twidth: 300px;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 input {\n\twidth: 30%;\n}\n._20S7oP6luBf-NmalphkKm_ ._3CtMsRh0_uFjfNfA5tS3-4 span {\n\tpadding: 0 6px;\n}\n._20S7oP6luBf-NmalphkKm_ .u_Xe_3p5udrs_-eS8w4lC img {\n\twidth: 100px;\n\theight: 100px;\n\tcursor: pointer;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e {\n\tposition: absolute;\n\twidth: 200px;\n\tright: 0.5em;\n\toverflow: hidden;\n\tborder: 1px solid #222;\n}\n._20S7oP6luBf-NmalphkKm_ ._1NBIhNbn1G4FX960WWsM4e img {\n\twidth: 100%;\n}\n/* square */\n._1UDS8FscxwfnF2cnf5kIrz {\n\tposition: relative;\n\tmargin: 0 auto;\n\tbackground: #222;\n}\n._1nOAmW-bODKMg3ef3tP2MA ._3voyMP818GfRg0qaBUyBol {\n\ttext-align: center;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr {\n\tposition: relative;\n\toverflow: hidden;\n\twidth: 100%;\n\theight: 100%;\n}\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr span {\n\tpadding: 3px;\n\tposition: absolute;\n\tfont-size: 1em;\n\tcolor: #fff;\n\tz-index: 998;\n\tbackground: rgba(22,22,22,.5);\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr img {\n\tposition: absolute;\n}\n\n._2owm9ID-5Dtp-IF1F-gvMH ._2LdER4DjTnz0vep6hd8Wcr:hover:after {\n\tcontent: \"\";\n\tdisplay: block;\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbackground-color: #fff;\n\topacity: .3;\n}\n\n._1nOAmW-bODKMg3ef3tP2MA {\n}\n.v2IaIQE5bpIQdzaoD8g6s {\n\tpadding: 2em 0;\n\tmargin: 0 auto;\n\ttext-align: center;\n}\n.v2IaIQE5bpIQdzaoD8g6s input {\n\n}\n\n#_1Jcc7hVcakOwqRWhJAJy0- {\n\tposition: absolute;\n\ttext-align: center;\n\tpadding-top: 50%;\n\tbox-sizing: border-box;\n\t-webkit-box-sizing: border-box;\n\t-moz-box-sizing: border-box;\n\t-ms-box-sizing: border-box;\n\t-o-box-sizing: border-box;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\tline-height: 100%;\n\tz-index: 1001;\n\tbackground: rgba(255,255,255,.0);\n\tdisplay: none;\n\ttransition: all 1s;\n}\n#_1Jcc7hVcakOwqRWhJAJy0- h1 {\n\tmargin: -1em;\n\tline-height: 1;\n\tfont-size: 2em;\n\ttext-shadow: 0 0 100px #f22;\n\tcolor: #ff0000;\n}\n", ""]);
 
 // exports
 exports.locals = {
