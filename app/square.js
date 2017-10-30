@@ -57,7 +57,6 @@ export default class Square extends React.Component {
 		win = false;
 	  }
 	});
-	win = true;
 	if(win) {
 	  this.setState({start: false});
 	  this.win();

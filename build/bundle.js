@@ -21990,7 +21990,6 @@ var Square = function (_React$Component) {
 					win = false;
 				}
 			});
-			win = true;
 			if (win) {
 				this.setState({ start: false });
 				this.win();
