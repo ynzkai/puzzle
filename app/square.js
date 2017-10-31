@@ -13,10 +13,11 @@ export default class Square extends React.Component {
 	this.block_width = this.block_width.bind(this);
 	this.block_height = this.block_height.bind(this);
 	this.handleClick = this.handleClick.bind(this);
-	this.getValidPosRoundBlank = this.getValidPosRoundBlank.bind(this);
+	this.getValidGridAroundBlank = this.getValidGridAroundBlank.bind(this);
+	this.getIndexByGrid = this.getIndexByGrid.bind(this);
 	this.win = this.win.bind(this);
 
-	this.state = {moves: 0, blank: this.props.cols*this.props.rows-1, start: false, pos: this.make_pos()};
+	this.state = {moves: 0, empty_cell: this.props.cols*this.props.rows-1, start: false, pos: this.make_pos()};
   }
 
   block_width() {
@@ -32,6 +33,21 @@ export default class Square extends React.Component {
 	this.shuffle();
   }
 
+  componentDidUpdate() {
+	if(!this.state.start) return;
+
+	let win = true;
+	this.state.pos.forEach((pos, index) => {
+	  if(pos.cell != index) {
+		win = false;
+	  }
+	});
+	if(win) {
+	  this.setState({start: false});
+	  this.win();
+	}
+  }
+
   componentWillReceiveProps(nextProps) {
 	if(this.props.width != nextProps.width || this.props.height != nextProps.height || this.props.cols != nextProps.cols || this.props.rows != nextProps.rows) {
 	  let pos = [];
@@ -44,22 +60,7 @@ export default class Square extends React.Component {
 	  	pos.push({top: top, left: left, img_top: top, img_left: left});
         }
       }
-	  this.setState({moves: 0, blank: nextProps.cols*nextProps.rows-1, start: false, pos: pos});
-	}
-  }
-
-  componentDidUpdate() {
-	if(!this.state.start) return;
-
-	let win = true;
-	this.state.pos.forEach((pos) => {
-	  if(pos.top != pos.img_top || pos.left != pos.img_left) {
-		win = false;
-	  }
-	});
-	if(win) {
-	  this.setState({start: false});
-	  this.win();
+	  this.setState({moves: 0, empty_cell: nextProps.cols*nextProps.rows-1, start: false, pos: pos});
 	}
   }
 
@@ -83,76 +84,63 @@ export default class Square extends React.Component {
 	this.wincontainer.style.display = "block";
   }
 
-  handleClick(e, seq) {
+  handleClick(e, cell) {
 	if(!this.state.start) return;
 	
-	let blank = this.state.blank;
-	if((seq==blank-1 && (blank%this.props.cols != 0))
-	   || (seq==blank+1 && (blank%this.props.cols != this.props.cols-1))
-	   || seq==blank-this.props.cols || seq==blank+this.props.cols) {
+	let empty_cell = this.state.empty_cell;
+	if((cell==empty_cell-1 && (empty_cell%this.props.cols != 0))
+	   || (cell==empty_cell+1 && (empty_cell%this.props.cols != this.props.cols-1))
+	   || cell==empty_cell-this.props.cols || cell==empty_cell+this.props.cols) {
 	  let pos = this.state.pos.slice(0);
-	  let t = {}
-	  t.img_top = pos[seq].img_top;
-	  t.img_left = pos[seq].img_left;
-	  pos[seq].img_top = pos[blank].img_top;
-	  pos[seq].img_left = pos[blank].img_left;
-	  pos[blank].img_top = t.img_top;
-	  pos[blank].img_left = t.img_left;
-	  this.setState({moves: this.state.moves+1, blank: seq, pos: pos});
+	  let p = this.getIndexByGrid(cell, pos);
+	  let q = this.getIndexByGrid(empty_cell, pos);
+	  let t = pos[p];
+	  pos[p] = pos[q];
+	  pos[q] = t;
+	  this.setState({moves: this.state.moves+1, empty_cell: cell, pos: pos});
 	}
   }
 
-  getValidPosRoundBlank(blank) {
+  getValidGridAroundBlank(empty_cell) {
 	let ps = [];
-	let p = blank-1;
-	if(p>=0 && blank%this.props.cols != 0) ps.push(p);
-	p = blank+1;
-	if(p<this.state.pos.length && blank%this.props.cols != this.props.cols-1) ps.push(p);
-	p = blank+this.props.cols;
+	let p = empty_cell-1;
+	if(p>=0 && empty_cell%this.props.cols != 0) ps.push(p);
+	p = empty_cell+1;
+	if(p<this.state.pos.length && empty_cell%this.props.cols != this.props.cols-1) ps.push(p);
+	p = empty_cell+this.props.cols;
 	if(p<this.state.pos.length) ps.push(p);
-	p = blank-this.props.cols;
+	p = empty_cell-this.props.cols;
 	if(p>=0) ps.push(p);
 
 	let i = Math.ceil(Math.random()*10) % ps.length;
 	return ps[i];
   }
 
+  getIndexByGrid(cell, pos) {
+	for(let i=0; i<pos.length; i++) {
+	  if(pos[i].cell == cell) {
+	  	return i;
+	  }
+	}
+  }
+
   shuffle() {
 	this.wincontainer.style.display = "none";
 	if(this.state.start) {
-	  this.setState({moves: 0, blank: this.props.cols*this.props.rows-1, start: false, pos: this.make_pos()});
+	  this.setState({moves: 0, empty_cell: this.props.cols*this.props.rows-1, start: false, pos: this.make_pos()});
 	} else {
-      let block_number = this.props.rows * this.props.cols;
 	  let pos = this.state.pos.slice(0);
-	  let blank = this.state.blank;
-      for(let i=0; i<100000; i++) {
-		/*
-	  	let a = Math.ceil(Math.random()*10*block_number) % block_number;
-	  	let b = Math.ceil(Math.random()*10*block_number) % block_number;
-	  	if(a == blank) {
-	  		blank = b;
-	  	} else if(b == blank) {
-	  		blank = a;
-	  	}
-	  	let t = {};
-	  	t.img_top = pos[a].img_top;
-	  	t.img_left = pos[a].img_left;
-	  	pos[a].img_top = pos[b].img_top;
-	  	pos[a].img_left = pos[b].img_left;
-	  	pos[b].img_top = t.img_top;
-	  	pos[b].img_left = t.img_left;
-		*/
-		let a = this.getValidPosRoundBlank(blank);
-	  	let t = {};
-	  	t.img_top = pos[a].img_top;
-	  	t.img_left = pos[a].img_left;
-	  	pos[a].img_top = pos[blank].img_top;
-	  	pos[a].img_left = pos[blank].img_left;
-	  	pos[blank].img_top = t.img_top;
-	  	pos[blank].img_left = t.img_left;
-		blank = a;
+	  let empty_cell = this.state.empty_cell;
+      for(let i=0; i<10000; i++) {
+		let a = this.getValidGridAroundBlank(empty_cell);
+	    let p = this.getIndexByGrid(a, pos);
+	    let q = this.getIndexByGrid(empty_cell, pos);
+		let t = pos[p];
+		pos[p] = pos[q];
+		pos[q] = t;
+		empty_cell = a;
 	  }
-	  this.setState({moves: 0, start: true, blank: blank, pos: pos});
+	  this.setState({moves: 0, start: true, empty_cell: empty_cell, pos: pos});
 	}
   }
 
@@ -162,7 +150,7 @@ export default class Square extends React.Component {
       for(let j=0; j<this.props.cols; j++) {
 		let top = i*(this.block_height()+1)+1;
 		let left = j*(this.block_width()+1)+1;
-		pos.push({top: top, left: left, img_top: top, img_left: left});
+		pos.push({cell: i*this.props.cols+j, top: top, left: left});
       }
     }
 	return pos;
@@ -171,13 +159,12 @@ export default class Square extends React.Component {
   make_blocks() {
 	let blocks = this.state.pos.map((pos, index) => {
 		           return (
-                     <Block key={index} seq={index} image_url={this.props.image_url}
-					        blank={index==this.state.blank ? true : false}
+                     <Block key={index} image_url={this.props.image_url}
+					        empty_cell={pos.cell==this.state.empty_cell ? true : false}
 							handleClick={this.handleClick}
-	                        pos={{top: pos.top, left: pos.left}}
-	                        img_pos={{top: pos.img_top, left: pos.img_left}}
+	                        pos={pos}
 	                  	    width={this.block_width()} height={this.block_height()}
-							show_seq={this.props.show_seq}
+							seq={index} show_seq={this.props.show_seq}
 	                  	    square={{width: this.props.width, height: this.props.height}} />
 				   );
 	             });

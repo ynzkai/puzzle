@@ -21939,10 +21939,11 @@ var Square = function (_React$Component) {
 		_this.block_width = _this.block_width.bind(_this);
 		_this.block_height = _this.block_height.bind(_this);
 		_this.handleClick = _this.handleClick.bind(_this);
-		_this.getValidPosRoundBlank = _this.getValidPosRoundBlank.bind(_this);
+		_this.getValidGridAroundBlank = _this.getValidGridAroundBlank.bind(_this);
+		_this.getIndexByGrid = _this.getIndexByGrid.bind(_this);
 		_this.win = _this.win.bind(_this);
 
-		_this.state = { moves: 0, blank: _this.props.cols * _this.props.rows - 1, start: false, pos: _this.make_pos() };
+		_this.state = { moves: 0, empty_cell: _this.props.cols * _this.props.rows - 1, start: false, pos: _this.make_pos() };
 		return _this;
 	}
 
@@ -21963,6 +21964,22 @@ var Square = function (_React$Component) {
 			this.shuffle();
 		}
 	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			if (!this.state.start) return;
+
+			var win = true;
+			this.state.pos.forEach(function (pos, index) {
+				if (pos.cell != index) {
+					win = false;
+				}
+			});
+			if (win) {
+				this.setState({ start: false });
+				this.win();
+			}
+		}
+	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
 			if (this.props.width != nextProps.width || this.props.height != nextProps.height || this.props.cols != nextProps.cols || this.props.rows != nextProps.rows) {
@@ -21976,23 +21993,7 @@ var Square = function (_React$Component) {
 						pos.push({ top: top, left: left, img_top: top, img_left: left });
 					}
 				}
-				this.setState({ moves: 0, blank: nextProps.cols * nextProps.rows - 1, start: false, pos: pos });
-			}
-		}
-	}, {
-		key: 'componentDidUpdate',
-		value: function componentDidUpdate() {
-			if (!this.state.start) return;
-
-			var win = true;
-			this.state.pos.forEach(function (pos) {
-				if (pos.top != pos.img_top || pos.left != pos.img_left) {
-					win = false;
-				}
-			});
-			if (win) {
-				this.setState({ start: false });
-				this.win();
+				this.setState({ moves: 0, empty_cell: nextProps.cols * nextProps.rows - 1, start: false, pos: pos });
 			}
 		}
 	}, {
@@ -22027,76 +22028,64 @@ var Square = function (_React$Component) {
 		}
 	}, {
 		key: 'handleClick',
-		value: function handleClick(e, seq) {
+		value: function handleClick(e, cell) {
 			if (!this.state.start) return;
 
-			var blank = this.state.blank;
-			if (seq == blank - 1 && blank % this.props.cols != 0 || seq == blank + 1 && blank % this.props.cols != this.props.cols - 1 || seq == blank - this.props.cols || seq == blank + this.props.cols) {
+			var empty_cell = this.state.empty_cell;
+			if (cell == empty_cell - 1 && empty_cell % this.props.cols != 0 || cell == empty_cell + 1 && empty_cell % this.props.cols != this.props.cols - 1 || cell == empty_cell - this.props.cols || cell == empty_cell + this.props.cols) {
 				var _pos = this.state.pos.slice(0);
-				var t = {};
-				t.img_top = _pos[seq].img_top;
-				t.img_left = _pos[seq].img_left;
-				_pos[seq].img_top = _pos[blank].img_top;
-				_pos[seq].img_left = _pos[blank].img_left;
-				_pos[blank].img_top = t.img_top;
-				_pos[blank].img_left = t.img_left;
-				this.setState({ moves: this.state.moves + 1, blank: seq, pos: _pos });
+				var p = this.getIndexByGrid(cell, _pos);
+				var q = this.getIndexByGrid(empty_cell, _pos);
+				var t = _pos[p];
+				_pos[p] = _pos[q];
+				_pos[q] = t;
+				this.setState({ moves: this.state.moves + 1, empty_cell: cell, pos: _pos });
 			}
 		}
 	}, {
-		key: 'getValidPosRoundBlank',
-		value: function getValidPosRoundBlank(blank) {
+		key: 'getValidGridAroundBlank',
+		value: function getValidGridAroundBlank(empty_cell) {
 			var ps = [];
-			var p = blank - 1;
-			if (p >= 0 && blank % this.props.cols != 0) ps.push(p);
-			p = blank + 1;
-			if (p < this.state.pos.length && blank % this.props.cols != this.props.cols - 1) ps.push(p);
-			p = blank + this.props.cols;
+			var p = empty_cell - 1;
+			if (p >= 0 && empty_cell % this.props.cols != 0) ps.push(p);
+			p = empty_cell + 1;
+			if (p < this.state.pos.length && empty_cell % this.props.cols != this.props.cols - 1) ps.push(p);
+			p = empty_cell + this.props.cols;
 			if (p < this.state.pos.length) ps.push(p);
-			p = blank - this.props.cols;
+			p = empty_cell - this.props.cols;
 			if (p >= 0) ps.push(p);
 
 			var i = Math.ceil(Math.random() * 10) % ps.length;
 			return ps[i];
 		}
 	}, {
+		key: 'getIndexByGrid',
+		value: function getIndexByGrid(cell, pos) {
+			for (var i = 0; i < pos.length; i++) {
+				if (pos[i].cell == cell) {
+					return i;
+				}
+			}
+		}
+	}, {
 		key: 'shuffle',
 		value: function shuffle() {
 			this.wincontainer.style.display = "none";
 			if (this.state.start) {
-				this.setState({ moves: 0, blank: this.props.cols * this.props.rows - 1, start: false, pos: this.make_pos() });
+				this.setState({ moves: 0, empty_cell: this.props.cols * this.props.rows - 1, start: false, pos: this.make_pos() });
 			} else {
-				var block_number = this.props.rows * this.props.cols;
 				var _pos2 = this.state.pos.slice(0);
-				var blank = this.state.blank;
-				for (var i = 0; i < 100000; i++) {
-					/*
-      	let a = Math.ceil(Math.random()*10*block_number) % block_number;
-      	let b = Math.ceil(Math.random()*10*block_number) % block_number;
-      	if(a == blank) {
-      		blank = b;
-      	} else if(b == blank) {
-      		blank = a;
-      	}
-      	let t = {};
-      	t.img_top = pos[a].img_top;
-      	t.img_left = pos[a].img_left;
-      	pos[a].img_top = pos[b].img_top;
-      	pos[a].img_left = pos[b].img_left;
-      	pos[b].img_top = t.img_top;
-      	pos[b].img_left = t.img_left;
-     */
-					var a = this.getValidPosRoundBlank(blank);
-					var t = {};
-					t.img_top = _pos2[a].img_top;
-					t.img_left = _pos2[a].img_left;
-					_pos2[a].img_top = _pos2[blank].img_top;
-					_pos2[a].img_left = _pos2[blank].img_left;
-					_pos2[blank].img_top = t.img_top;
-					_pos2[blank].img_left = t.img_left;
-					blank = a;
+				var empty_cell = this.state.empty_cell;
+				for (var i = 0; i < 10000; i++) {
+					var a = this.getValidGridAroundBlank(empty_cell);
+					var p = this.getIndexByGrid(a, _pos2);
+					var q = this.getIndexByGrid(empty_cell, _pos2);
+					var t = _pos2[p];
+					_pos2[p] = _pos2[q];
+					_pos2[q] = t;
+					empty_cell = a;
 				}
-				this.setState({ moves: 0, start: true, blank: blank, pos: _pos2 });
+				this.setState({ moves: 0, start: true, empty_cell: empty_cell, pos: _pos2 });
 			}
 		}
 	}, {
@@ -22107,7 +22096,7 @@ var Square = function (_React$Component) {
 				for (var j = 0; j < this.props.cols; j++) {
 					var top = i * (this.block_height() + 1) + 1;
 					var left = j * (this.block_width() + 1) + 1;
-					pos.push({ top: top, left: left, img_top: top, img_left: left });
+					pos.push({ cell: i * this.props.cols + j, top: top, left: left });
 				}
 			}
 			return pos;
@@ -22118,13 +22107,12 @@ var Square = function (_React$Component) {
 			var _this2 = this;
 
 			var blocks = this.state.pos.map(function (pos, index) {
-				return _react2.default.createElement(_block2.default, { key: index, seq: index, image_url: _this2.props.image_url,
-					blank: index == _this2.state.blank ? true : false,
+				return _react2.default.createElement(_block2.default, { key: index, image_url: _this2.props.image_url,
+					empty_cell: pos.cell == _this2.state.empty_cell ? true : false,
 					handleClick: _this2.handleClick,
-					pos: { top: pos.top, left: pos.left },
-					img_pos: { top: pos.img_top, left: pos.img_left },
+					pos: pos,
 					width: _this2.block_width(), height: _this2.block_height(),
-					show_seq: _this2.props.show_seq,
+					seq: index, show_seq: _this2.props.show_seq,
 					square: { width: _this2.props.width, height: _this2.props.height } });
 			});
 			return blocks;
@@ -22210,7 +22198,10 @@ var Block = function (_React$Component) {
   function Block(props) {
     _classCallCheck(this, Block);
 
-    return _possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).call(this, props));
+
+    _this.state = { seq: props.seq, img_top: props.pos.top * -1, img_left: props.pos.left * -1 };
+    return _this;
   }
 
   _createClass(Block, [{
@@ -22227,16 +22218,16 @@ var Block = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: _puzzle2.default.block, onClick: function onClick(e) {
-            _this2.props.handleClick(e, _this2.props.seq);
+            _this2.props.handleClick(e, _this2.props.pos.cell);
           }, style: { top: this.props.pos.top, left: this.props.pos.left, width: this.props.width, height: this.props.height } },
         _react2.default.createElement(
           'div',
-          { className: _puzzle2.default.inner, style: { opacity: this.props.blank ? .05 : 1 } },
-          _react2.default.createElement('img', { src: this.props.image_url, style: { top: this.props.img_pos.top * -1, left: this.props.img_pos.left * -1, width: this.props.square.width, height: this.props.square.height } }),
+          { className: _puzzle2.default.inner, style: { opacity: this.props.empty_cell ? .05 : 1 } },
+          _react2.default.createElement('img', { src: this.props.image_url, style: { top: this.state.img_top, left: this.state.img_left, width: this.props.square.width, height: this.props.square.height } }),
           this.props.show_seq == "Y" ? _react2.default.createElement(
             'span',
             null,
-            Math.round(this.props.img_pos.top) + ", " + Math.round(this.props.img_pos.left)
+            this.props.seq
           ) : ""
         )
       );
